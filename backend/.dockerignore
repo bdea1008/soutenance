@@ -1,0 +1,29 @@
+# Dépendances réinstallées dans l'image.
+vendor/
+node_modules/
+
+# Secrets et base locale de développement — l'environnement du conteneur est
+# fourni par docker-compose.
+.env
+.env.backup
+.env.production
+database/database.sqlite
+
+# Données et caches d'exécution : l'arborescence est recréée par l'entrypoint.
+storage/app/private/
+storage/app/public/
+storage/framework/cache/
+storage/framework/sessions/
+storage/framework/views/
+storage/logs/
+bootstrap/cache/*.php
+.phpunit.result.cache
+.phpunit.cache/
+
+# Sans objet dans l'image d'exécution.
+# (tests/ est conservé : la suite est jouable dans le conteneur.)
+.git/
+.github/
+.idea/
+.vscode/
+README.md

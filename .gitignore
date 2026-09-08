@@ -1,0 +1,9 @@
+# Réglages locaux de la pile Docker (voir .env.example).
+.env
+
+# Documents personnels sans rapport avec le projet.
+Exercices_et_problemes_d_algorithme.pdf
+
+.DS_Store
+Thumbs.db
+*.log

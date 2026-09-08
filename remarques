@@ -1,0 +1,44 @@
+Où utiliser chaque couleur ?
+Élément	Couleur
+Navbar	#183630
+Footer	#183630
+Logo	Or doux
+Boutons principaux	#183630
+Boutons secondaires	#E5C690
+Fond de page	#E3DAC9 ou blanc
+Cartes	Blanc
+Icônes	Vert profond
+Barres de progression	Vert
+Badge "Projet financé"	Or
+Le seul élément qui me manque
+
+Je pense qu'il manque une couleur d'information.
+
+Par exemple un bleu discret.
+
+Pourquoi ?
+
+Parce que dans une application il existe des états :
+
+information
+succès
+erreur
+avertissement
+
+Vous ne pouvez pas tout faire en vert.
+
+Je garderais donc un bleu uniquement pour les éléments informatifs.
+
+Par exemple :
+
+#3B82F6
+
+Il servirait uniquement pour :
+
+liens
+notifications
+états "En cours"
+graphiques
+tableaux
+
+L'utilisateur le verra rarement, mais l'interface sera beaucoup plus cohérente.

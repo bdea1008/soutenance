@@ -1,0 +1,12 @@
+# Dépendances installées dans l'image (pip), pas copiées depuis l'hôte.
+.libs/
+__pycache__/
+**/__pycache__/
+*.pyc
+
+# Le modèle est ré-entraîné pendant la construction — voir Dockerfile.
+models/
+
+tests/
+README.md
+run.sh

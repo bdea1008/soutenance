@@ -1,0 +1,1260 @@
+/* Styles spécifiques aux composants de mise en page AndTabbax. */
+
+/* --- Navbar -------------------------------------------------------------
+   Barre flottante détachée des bords, vert profond comme le pied de page :
+   c'est le chrome de la maison, il doit se reconnaître d'un coup d'œil.
+   L'en-tête lui-même reste transparent — seule la pilule est visible, et le
+   contenu défile sous la mince bande qui la sépare du haut de l'écran. */
+.navbar {
+  position: sticky; top: 0; z-index: 50;
+  padding: 0.7rem 0;
+  background: transparent;
+}
+.navbar__inner {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1.25rem;
+  min-height: 60px;
+  padding: 0 1.25rem;
+  background: rgba(24, 54, 48, 0.97);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(229, 198, 144, 0.16);
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(15, 36, 31, 0.16);
+}
+/* Le nom de marque suit le logo : or doux, comme la signature du médaillon,
+   et légèrement chassé — c'est le seul mot de la barre qui a le droit d'être
+   large. */
+.navbar__brand {
+  display: flex; align-items: center; gap: 0.55rem;
+  font-weight: 800; font-size: 1.05rem; letter-spacing: 0.06em;
+  color: var(--color-gold); white-space: nowrap;
+}
+.navbar__brand:hover { text-decoration: none; }
+/* Médaillon du logo. Le mot-symbole n'est pas repris ici : sous ~120 px il
+   devient illisible, et « AndTabbax » est déjà écrit à côté. */
+.navbar__logo { width: 34px; height: 34px; object-fit: contain; display: block; }
+
+/* Le logo est bicolore vert/bleu nuit : sur un fond sombre le bleu nuit
+   disparaît. Partout où le fond est foncé, on le pose sur une pastille claire
+   plutôt que d'en produire une variante monochrome. */
+.logo-chip {
+  background: #fff; border-radius: 10px; padding: 6px;
+  display: inline-grid; place-items: center;
+}
+.logo-chip img { display: block; width: 40px; height: 40px; object-fit: contain; }
+
+.logo-chip--lg { padding: 10px; border-radius: 16px; }
+.logo-chip--lg img { width: 64px; height: 64px; }
+
+/* Logo complet (emblème + signature), pour les pages d'identification. */
+.brand-full { display: block; margin: 0 auto 1.25rem; width: 220px; max-width: 60%; height: auto; }
+
+/* Verrouillage horizontal (médaillon + nom), quand la hauteur est comptée :
+   le logo complet fait ~220 px de haut, il repousserait à lui seul la moitié
+   d'un formulaire hors de l'écran. */
+.brand-inline { display: flex; align-items: center; justify-content: center; gap: 0.6rem; margin-bottom: 1.1rem; }
+.brand-inline img { width: 44px; height: 44px; object-fit: contain; }
+.brand-inline span { font-weight: 800; font-size: 1.2rem; color: var(--color-primary-dark); }
+
+/* Médaillon isolé au-dessus d'un titre (page 404). */
+.brand-mark-lg { display: block; margin: 0 auto 1rem; width: 72px; height: 72px; object-fit: contain; }
+/* Navigation au centre, compte à droite. Les deux zones partagent le même
+   traitement : du texte, jamais un cadre.
+
+   La zone centrale est celle qui cède : `min-width: 0` l'autorise à rétrécir
+   sous son contenu et à défiler en interne, au lieu de pousser la barre
+   au-delà de la page. Un promoteur non vérifié cumule huit entrées — ça ne
+   tient pas sur une ligne, et il vaut mieux que ça glisse que ça déborde.
+   `safe center` garde le centrage tant que ça tient, sans rendre le début
+   inatteignable quand ça déborde. */
+.navbar__browse,
+.navbar__account { display: flex; align-items: center; }
+.navbar__browse {
+  justify-content: safe center; gap: 1.75rem;
+  min-width: 0; overflow-x: auto; scrollbar-width: none;
+}
+.navbar__browse::-webkit-scrollbar { display: none; }
+.navbar__account { justify-content: flex-end; gap: 1.15rem; }
+
+/* Entrée de navigation : petites capitales chassées, soulignées à l'or au
+   survol. Vaut aussi pour les <button> (déconnexion), d'où la remise à zéro
+   des styles de bouton. */
+.navbar__link {
+  position: relative; padding: 0.35rem 0;
+  background: none; border: none; cursor: pointer;
+  font: inherit; font-size: 0.76rem; font-weight: 600;
+  letter-spacing: 0.09em; text-transform: uppercase; white-space: nowrap;
+  color: rgba(255, 255, 255, 0.82);
+  transition: color .15s ease;
+}
+.navbar__link:hover { color: #fff; text-decoration: none; }
+.navbar__link::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: 0;
+  height: 1px; background: var(--color-gold);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .18s ease;
+}
+.navbar__link:hover::after { transform: scaleX(1); }
+.navbar__link:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 4px; border-radius: 2px; }
+
+/* Seule action mise en avant de la barre : créer un compte. Tout le reste
+   étant du texte, un unique bouton plein suffit à la désigner. */
+.navbar__cta {
+  padding: 0.5rem 1.1rem; font-size: 0.76rem;
+  letter-spacing: 0.08em; text-transform: uppercase;
+}
+.navbar .btn--primary { background: var(--color-gold); color: var(--color-primary-dark); }
+.navbar .btn--primary:hover { background: #dab871; }
+
+/* La cloche de notifications est le seul pictogramme de la barre. */
+.navbar .btn--ghost { color: rgba(255, 255, 255, 0.82); border-color: transparent; padding: 0.35rem; }
+.navbar .btn--ghost:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
+
+/* Salutation : la première chose sacrifiée quand la place manque, c'est la
+   seule entrée de la barre qui ne mène nulle part. */
+.navbar__user {
+  display: none; font-size: 0.8rem; color: rgba(255, 255, 255, 0.6); white-space: nowrap;
+}
+@media (min-width: 1200px) { .navbar__user { display: inline; } }
+
+/* Sous 1024 px, les trois zones ne tiennent plus confortablement sur une
+   ligne : la navigation passe en dessous, sur toute la largeur, et défile
+   latéralement si besoin plutôt que de déborder. */
+@media (max-width: 1023px) {
+  .navbar__inner {
+    grid-template-columns: auto auto;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    padding: 0.7rem 1rem;
+  }
+  .navbar__browse {
+    grid-column: 1 / -1; order: 3;
+    justify-content: flex-start; gap: 1.5rem;
+    overflow-x: auto; scrollbar-width: none;
+    padding-bottom: 0.15rem;
+  }
+  .navbar__browse::-webkit-scrollbar { display: none; }
+  .navbar__browse:empty { display: none; }
+  .navbar__account { gap: 1rem; }
+}
+
+/* --- Hero -----------------------------------------------------------------
+   Bloc détaché, calé exactement sur la largeur de la barre de navigation :
+   les deux se répondent, l'ivoire de la page circule autour. Le même vert
+   profond que le chrome, approfondi par un dégradé et réchauffé d'une lueur
+   d'or discrète — pas un vert générique de gabarit. */
+.hero {
+  width: calc(100% - 2.5rem);
+  max-width: calc(var(--max-width) - 2.5rem);
+  margin-inline: auto;
+  border-radius: 22px;
+  overflow: hidden;
+  background:
+    radial-gradient(1100px 420px at 82% -12%, rgba(229, 198, 144, 0.22), transparent),
+    linear-gradient(160deg, #0f241f 0%, #183630 52%, #234840 100%);
+  color: #fff;
+}
+.hero__inner { padding: 4.5rem 1.5rem 5rem; max-width: 720px; }
+.hero h1 { color: #fff; }
+.hero p { color: rgba(255, 255, 255, 0.86); font-size: 1.1rem; }
+.hero__logo { margin-bottom: 1.25rem; }
+.hero__slogan { font-weight: 600; color: var(--color-gold); letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.78rem; }
+.hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.75rem; margin-top: 1.75rem; }
+
+/* Second appel à l'action : un lien souligné plutôt qu'un second bouton. Deux
+   boutons pleins côte à côte se disputent le regard et n'en désignent aucun. */
+.hero__link {
+  color: #fff; font-weight: 600; font-size: 0.92rem; letter-spacing: 0.03em;
+  padding-bottom: 3px; border-bottom: 1px solid rgba(255, 255, 255, 0.45);
+  transition: color .15s ease, border-color .15s ease;
+}
+.hero__link:hover { color: var(--color-gold); border-bottom-color: var(--color-gold); text-decoration: none; }
+
+/* --- Stat bandeau ------------------------------------------------------- */
+.stat {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.25rem; text-align: center; box-shadow: var(--shadow-sm);
+}
+.stat__value { font-size: 1.6rem; font-weight: 800; color: var(--color-primary-dark); }
+.stat__label { font-size: 0.85rem; color: var(--color-text-muted); margin-top: 0.2rem; }
+
+/* --- Carte projet ------------------------------------------------------- */
+.project-card { display: flex; flex-direction: column; text-decoration: none; color: inherit; transition: box-shadow .15s, transform .1s; }
+.project-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); text-decoration: none; }
+.project-card__media {
+  aspect-ratio: 16 / 9; background: linear-gradient(135deg, #f3ead5, #fbf7ef);
+  display: grid; place-items: center; color: var(--color-primary); position: relative; font-size: 2rem;
+}
+/* Marque en filigrane quand le projet n'a pas de photo : présente, mais elle
+   ne doit pas se lire comme l'illustration du projet. */
+.project-card__fallback { width: 38%; max-width: 96px; height: auto; opacity: 0.4; }
+.project-card__cat {
+  position: absolute; top: 0.75rem; left: 0.75rem;
+  background: rgba(255, 255, 255, 0.9); text-transform: capitalize;
+}
+.project-card__body { padding: 1rem 1.1rem 1.2rem; display: flex; flex-direction: column; gap: 0.6rem; flex: 1; }
+.project-card__title { font-size: 1.05rem; font-weight: 700; margin: 0; }
+.project-card__loc { font-size: 0.85rem; color: var(--color-text-muted); }
+.project-card__loc .icon { vertical-align: -2px; }
+.project-card__meta { display: flex; justify-content: space-between; font-size: 0.85rem; margin-top: auto; }
+.project-card__amount { font-weight: 700; color: var(--color-primary-dark); }
+/* La date passe après le montant collecté : c'est un repère, pas le chiffre
+   qu'on vient chercher. */
+.project-card__date { margin: 0.5rem 0 0; font-size: 0.78rem; color: var(--color-text-muted); }
+
+/* --- Section entête ----------------------------------------------------- */
+.section__head { max-width: 640px; margin-bottom: 2rem; }
+.section__head--center { margin-inline: auto; text-align: center; }
+.eyebrow { color: var(--color-gold-dark); font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; }
+
+/* --- Bloc confiance ----------------------------------------------------- */
+.feature { display: flex; gap: 0.9rem; }
+.feature__icon {
+  flex: none; width: 42px; height: 42px; border-radius: 10px;
+  background: var(--color-neutral-soft); color: var(--color-primary); display: grid; place-items: center;
+}
+.feature h3 { margin-bottom: 0.25rem; }
+
+/* --- Footer ---------------------------------------------------------------
+   Même vert profond que la navbar, à l'hexadécimal près : deux bords d'un
+   même chrome, pas deux couleurs qui se ressemblent. */
+.footer { background: var(--color-primary); color: rgba(255, 255, 255, 0.78); padding: 2.5rem 0; margin-top: 2rem; }
+.footer a { color: #fff; }
+.footer a:hover { color: var(--color-gold); }
+.footer__grid { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1.5rem; }
+
+/* --- Page auth ---------------------------------------------------------- */
+.auth-wrap { max-width: 460px; margin: 3rem auto; padding: 0 1.25rem; }
+/* L'écran de choix du rôle présente deux cartes côte à côte. */
+.auth-wrap--wide { max-width: 780px; }
+.auth-card { padding: 2rem; }
+.auth-switch { text-align: center; font-size: 0.9rem; margin-top: 1rem; }
+.form-row { display: grid; gap: 1rem; }
+@media (min-width: 520px) { .form-row--2 { grid-template-columns: 1fr 1fr; } }
+
+/* Sur petit écran, l'inscription doit tenir sans défilement : on récupère la
+   place sur les marges plutôt que sur le contenu. Prénom et nom restent côte à
+   côte même à 360 px — deux champs courts y tiennent. */
+@media (max-width: 639px) {
+  .auth-wrap { margin: 1.25rem auto; }
+  .auth-card { padding: 1.25rem; }
+  .auth-card .form-row--2 { grid-template-columns: 1fr 1fr; }
+}
+
+/* Ligne d'aide sous le formulaire de connexion : « mot de passe oublié »
+   n'est pas au même rang que « se connecter », il ne prend donc ni un bouton
+   ni la largeur pleine — juste un lien discret, à droite du champ. */
+.auth-aside { display: flex; justify-content: flex-end; margin: -0.5rem 0 1rem; font-size: 0.85rem; }
+
+/* Panneau de démonstration : ce que l'utilisateur aurait reçu par email.
+   Encadré, sur fond neutre chaud et non sur un fond d'état : ce n'est ni une
+   réussite ni une alerte, c'est une note de contexte sur l'environnement.
+   Le liseré or dit qu'il s'agit d'un dispositif de la maison, pas d'un
+   message de l'application. */
+.sim-panel {
+  margin: 1.25rem 0 0.5rem;
+  padding: 1rem 1.1rem;
+  background: var(--color-neutral-soft);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-gold);
+  border-radius: var(--radius-sm);
+  text-align: left;
+}
+.sim-panel__head {
+  display: flex; align-items: center; gap: 0.45rem;
+  margin: 0 0 0.5rem;
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--color-gold-dark);
+}
+.sim-panel__note { margin: 0 0 0.85rem; font-size: 0.85rem; line-height: 1.55; color: var(--color-text-muted); }
+.sim-panel__meta {
+  display: grid; grid-template-columns: 6.5rem 1fr; gap: 0.2rem 0.6rem;
+  margin: 0 0 1rem; font-size: 0.85rem;
+}
+.sim-panel__meta dt { color: var(--color-text-muted); }
+.sim-panel__meta dd { margin: 0; font-weight: 600; word-break: break-word; }
+/* Les deux issues s'empilent sous 420 px : côte à côte, « Aller directement
+   au formulaire » se coupe en trois lignes et le panneau double de hauteur. */
+.sim-panel__actions { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.sim-panel__actions .btn { flex: 1 1 auto; font-size: 0.9rem; padding: 0.6rem 1rem; }
+
+/* Navigation entre étapes : le retour à gauche, l'avancée à droite. */
+.auth-nav { display: flex; gap: 0.75rem; justify-content: space-between; margin-top: 1.25rem; }
+.auth-nav .btn { flex: 1; }
+
+/* Sortie des écrans d'identification, calée à gauche au-dessus de la carte.
+   Ces pages n'ont ni barre de navigation ni pied de page : c'est la seule
+   issue autre que s'identifier, elle doit rester visible sans pour autant
+   concurrencer le formulaire — d'où un bouton texte plutôt qu'un bouton plein. */
+.auth-back {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  margin-bottom: 0.9rem; padding: 0.4rem 0;
+  background: none; border: none; cursor: pointer;
+  font: inherit; font-size: 0.9rem; font-weight: 600;
+  color: var(--color-text-muted);
+}
+.auth-back:hover { color: var(--color-primary-dark); }
+.auth-back:focus-visible {
+  outline: 2px solid var(--color-info); outline-offset: 3px; border-radius: 4px;
+}
+
+/* Retour des pages intérieures. Même aspect que celui des écrans
+   d'identification — c'est le même geste, il doit se reconnaître — mais posé
+   en haut du conteneur d'une page qui a, elle, une barre de navigation. */
+.back-link {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  margin: 1.25rem 0 0; padding: 0.35rem 0;
+  background: none; border: none; cursor: pointer;
+  font: inherit; font-size: 0.9rem; font-weight: 600;
+  color: var(--color-text-muted);
+}
+/* Les blocs de titre réservent déjà leur respiration en haut : sans ces deux
+   règles, le retour posé au-dessus décollerait le titre de deux crans. */
+.back-link + .dash-head { padding-top: 0.75rem; }
+.back-link + .section__head { margin-top: 0.9rem; }
+/* Dans une `.section`, l'espace haut est déjà celui de la section. */
+.section > .back-link:first-child { margin-top: 0; }
+/* En-tête de fiche projet : c'est le conteneur qui porte l'espace, le retour
+   s'y insère sans en ajouter un second. */
+.detail-hero:has(.back-link) { padding-top: 0.75rem; }
+.back-link:hover { color: var(--color-primary-dark); }
+.back-link:focus-visible {
+  outline: 2px solid var(--color-info); outline-offset: 3px; border-radius: 4px;
+}
+
+/* Fil d'étapes. Les libellés disparaissent sous 520 px — trois mots côte à
+   côte y deviennent illisibles — mais la position reste lisible aux puces. */
+.steps { display: flex; gap: 0.4rem; margin-bottom: 1rem; }
+.steps__dot {
+  flex: 1; font-size: 0.72rem; font-weight: 600; color: var(--color-text-muted);
+  text-align: center; padding-top: 0.5rem; border-top: 3px solid var(--color-border);
+}
+.steps__dot--on { color: var(--color-primary-dark); border-top-color: var(--color-primary); }
+.steps__dot--done { border-top-color: var(--color-primary-light); }
+@media (max-width: 519px) { .steps__dot { font-size: 0; padding-top: 0; } }
+
+/* Choix du rôle : deux cartes cliquables, pas un menu déroulant — c'est la
+   décision qui commande tout le parcours qui suit. */
+.role-grid { display: grid; gap: 0.9rem; }
+@media (min-width: 640px) { .role-grid { grid-template-columns: 1fr 1fr; } }
+.role-card {
+  display: flex; flex-direction: column; gap: 0.35rem; text-align: left;
+  padding: 1.1rem 1.2rem; border: 1px solid var(--color-border);
+  border-radius: var(--radius); background: var(--color-surface);
+  cursor: pointer; font: inherit; color: inherit;
+  transition: border-color .15s, box-shadow .15s, transform .1s;
+}
+.role-card:hover { border-color: var(--color-primary); box-shadow: var(--shadow-sm); transform: translateY(-2px); }
+.role-card--on { border-color: var(--color-primary); box-shadow: 0 0 0 2px rgba(24, 54, 48, 0.15); }
+.role-card__head { display: flex; align-items: center; gap: 0.55rem; }
+.role-card__icon { font-size: 1.5rem; }
+.role-card__label { font-weight: 800; font-size: 1.05rem; color: var(--color-primary-dark); }
+.role-card__pitch { font-size: 0.9rem; color: var(--color-text-muted); }
+.role-card__points {
+  display: grid; gap: 0.15rem; margin-top: 0.35rem;
+  font-size: 0.82rem; line-height: 1.45; color: var(--color-text-muted);
+}
+.role-card__points > span { padding-left: 0.95rem; text-indent: -0.95rem; }
+.role-card__points > span::before { content: '· '; font-weight: 700; }
+.role-card__cta { margin-top: 0.6rem; font-size: 0.85rem; font-weight: 700; color: var(--color-primary); }
+/* Sur mobile la carte entière est la cible tactile : l'invite écrite ne sert
+   plus qu'à consommer de la hauteur. */
+@media (max-width: 639px) { .role-card__cta { display: none; } }
+
+/* --- Détail projet ------------------------------------------------------ */
+.detail-hero { background: var(--color-surface); border-bottom: 1px solid var(--color-border); padding: 2rem 0; }
+.detail-grid { display: grid; gap: 1.5rem; }
+@media (min-width: 900px) { .detail-grid { grid-template-columns: 2fr 1fr; align-items: start; } }
+.invest-box { position: sticky; top: 84px; padding: 1.4rem; }
+.data-row { display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px dashed var(--color-border); font-size: 0.92rem; }
+.data-row:last-child { border-bottom: none; }
+.data-row b { color: var(--color-primary-dark); }
+
+/* --- Dashboard ---------------------------------------------------------- */
+.dash-head { padding: 2rem 0 1rem; }
+.contrib-item { display: flex; justify-content: space-between; align-items: center; padding: 0.9rem 1.1rem; }
+
+/* --- Espace promoteur --------------------------------------------------- */
+.promo-head { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; justify-content: space-between; }
+.promo-item {
+  display: flex; flex-direction: column; gap: 0.9rem;
+  padding: 1.1rem; border-bottom: 1px solid var(--color-border);
+}
+.promo-item:last-child { border-bottom: none; }
+.promo-item__main { flex: 1; min-width: 0; }
+.promo-item__title { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin-bottom: 0.2rem; }
+.promo-item__actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.promo-item__actions .btn { padding: 0.4rem 0.8rem; font-size: 0.85rem; }
+.promo-item__danger { color: var(--color-danger); }
+.promo-item__danger:hover { background: var(--color-danger-soft); }
+@media (min-width: 760px) {
+  .promo-item { flex-direction: row; align-items: center; justify-content: space-between; }
+  .promo-item__actions { flex-shrink: 0; }
+}
+
+/* --- Abonnements -------------------------------------------------------- */
+.plan-grid { align-items: stretch; }
+.plan {
+  position: relative; display: flex; flex-direction: column; gap: 0.75rem;
+  background: var(--color-surface); border: 1px solid var(--color-border);
+  border-radius: var(--radius); box-shadow: var(--shadow-sm); padding: 1.6rem 1.4rem;
+}
+.plan--featured { border-color: var(--color-primary); box-shadow: var(--shadow); }
+/* Le palier déjà souscrit se signale en bleu : une information sur l'état du
+   compte, pas une mise en avant commerciale — l'or est réservé au ruban
+   « le plus choisi », les deux ne doivent jamais se confondre sur une même
+   carte. */
+.plan--current { border-color: var(--color-info); }
+.plan__ribbon {
+  position: absolute; top: -0.7rem; left: 1.4rem;
+  background: var(--color-gold); color: var(--color-primary-dark);
+  padding: 0.2rem 0.7rem; border-radius: 999px;
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.02em;
+}
+.plan__name { margin: 0; font-size: 1.15rem; }
+.plan__price { margin: 0; font-size: 1.5rem; font-weight: 800; color: var(--color-primary-dark); }
+.plan__period { font-size: 0.85rem; font-weight: 500; color: var(--color-text-muted); }
+.plan__features { list-style: none; padding: 0; margin: 0.5rem 0; display: grid; gap: 0.45rem; flex: 1; }
+.plan__features li { position: relative; padding-left: 1.4rem; font-size: 0.9rem; }
+.plan__features li::before {
+  content: "✓"; position: absolute; left: 0;
+  color: var(--color-success); font-weight: 700;
+}
+.plan .badge { align-self: flex-start; }
+
+/* Bandeau de réassurance sous la grille tarifaire : ce qui reste à savoir
+   avant de choisir — comment on paie, et qu'on n'est engagé à rien. */
+.pricing-trust {
+  display: flex; flex-direction: column; align-items: center; gap: 0.6rem;
+  max-width: 560px; margin: 2rem auto 0; text-align: center;
+}
+
+.sub-current { padding: 1.5rem; }
+.sub-current__head { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: flex-start; }
+.sub-current__status { text-align: right; }
+.sub-quota { margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid var(--color-border); }
+.sub-actions {
+  display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: flex-end;
+  margin-top: 1.4rem; padding-top: 1.2rem; border-top: 1px solid var(--color-border);
+}
+
+/* --- Paiement ------------------------------------------------------------
+   Un seul système pour les deux parcours qui encaissent — investir dans un
+   projet, souscrire un abonnement. Ils posent la même question et doivent
+   donc se ressembler : le contraire donnerait deux paiements d'aspect
+   différent dans la même application. */
+
+/* Logos de fournisseurs : hauteur imposée, largeur libre. Le mot-symbole
+   d'Orange Money fait près de quatre fois sa hauteur — le contraindre à un
+   carré l'écraserait. Le carré cyan de Wave, lui, est arrondi comme une icône
+   d'application (`--boxed`), sinon il se lit comme une vignette mal détourée
+   à côté d'un logo détouré. */
+.pay-logo { display: block; width: auto; object-fit: contain; }
+.pay-logo--boxed { border-radius: 22%; }
+
+/* Une seule colonne, y compris sur grand écran : la colonne de gauche de la
+   fenêtre de paiement fait ~400 px, deux vignettes côte à côte n'y laissaient
+   que 80 px de texte — « Compte Orange Money » y passait à la ligne. En pleine
+   largeur, chaque moyen respire et se lit d'un bloc. */
+.pay-options { display: grid; gap: 0.7rem; }
+
+.pay-option {
+  position: relative; display: flex; align-items: center; gap: 0.75rem;
+  padding: 0.85rem 0.9rem;
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border); border-radius: var(--radius-sm);
+  cursor: pointer; transition: border-color .15s, box-shadow .15s;
+}
+.pay-option:hover { border-color: var(--color-primary-light); }
+/* Sélection en vert profond, comme toute décision engagée de l'interface —
+   surtout pas dans la couleur du fournisseur, qui changerait de teinte d'une
+   vignette à l'autre pour dire exactement la même chose. */
+.pay-option--on {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(24, 54, 48, 0.12);
+}
+/* Le bouton radio reste dans le flux (focus clavier, lecture d'écran), mais
+   c'est la vignette entière qui le représente à l'écran. */
+.pay-option__input { position: absolute; opacity: 0; width: 0; height: 0; }
+/* Le contour ne doit apparaître qu'au clavier : `:focus-within` s'allumerait
+   aussi après un clic de souris, sur une vignette déjà marquée sélectionnée. */
+.pay-option:has(.pay-option__input:focus-visible) {
+  outline: 2px solid var(--color-info); outline-offset: 2px;
+}
+
+.pay-option__logo {
+  display: grid; place-items: center; flex-shrink: 0;
+  width: 44px; height: 30px;
+}
+.pay-option__body { display: flex; flex-direction: column; min-width: 0; }
+.pay-option__name { font-weight: 700; font-size: 0.95rem; line-height: 1.25; }
+.pay-option__hint { font-size: 0.78rem; color: var(--color-text-muted); }
+.pay-option__check {
+  margin-left: auto; flex-shrink: 0;
+  color: var(--color-primary); opacity: 0;
+  transition: opacity .15s;
+}
+.pay-option--on .pay-option__check { opacity: 1; }
+
+/* Coordonnées du moyen choisi : numéro à débiter, ou carte. Détaché des
+   vignettes par un léger fond, pour se lire comme leur conséquence et non
+   comme une troisième option. */
+.pay-detail {
+  margin-top: 0.9rem;
+  padding: 1rem 1.1rem;
+  background: var(--color-neutral-soft);
+  border-radius: var(--radius-sm);
+}
+.pay-detail__title {
+  margin: 0 0 0.7rem;
+  font-size: 0.8rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+.pay-detail__note {
+  display: flex; align-items: flex-start; gap: 0.5rem;
+  margin: 1rem 0 0; font-size: 0.78rem; line-height: 1.55; color: var(--color-text-muted);
+}
+.pay-detail__note svg { flex-shrink: 0; margin-top: 0.15rem; color: var(--color-success-dark); }
+
+/* Choix du numéro à débiter : celui du compte, ou un autre. Deux lignes
+   cliquables plutôt qu'une case à cocher — le numéro enregistré doit être
+   lisible avant qu'on décide d'en changer. */
+.pay-choice {
+  display: flex; align-items: flex-start; gap: 0.6rem;
+  padding: 0.6rem 0.7rem; margin-bottom: 0.4rem;
+  background: var(--color-surface);
+  border: 1.5px solid transparent; border-radius: var(--radius-sm);
+  cursor: pointer; font-size: 0.9rem;
+}
+.pay-choice:last-of-type { margin-bottom: 0; }
+.pay-choice--on { border-color: var(--color-primary); }
+.pay-choice input { margin-top: 0.25rem; accent-color: var(--color-primary); flex-shrink: 0; }
+.pay-choice b { display: block; font-variant-numeric: tabular-nums; }
+.pay-choice__hint { display: block; font-size: 0.78rem; color: var(--color-text-muted); }
+
+/* Champ portant une étiquette à droite (le réseau de la carte, reconnu à la
+   frappe). Le rembourrage droit de l'input lui réserve la place, sinon le
+   numéro passerait dessous. */
+.field-with-tag { position: relative; }
+.field-with-tag input { padding-right: 5.5rem; }
+.field-tag {
+  position: absolute; top: 50%; right: 0.6rem; transform: translateY(-50%);
+  padding: 0.15rem 0.5rem; border-radius: 999px;
+  background: var(--color-neutral-soft); color: var(--color-primary-dark);
+  font-size: 0.72rem; font-weight: 700; white-space: nowrap;
+  max-width: 5rem; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* Repli des étiquettes de champ sur écran étroit : sous 520 px l'étiquette
+   posée dans le champ ne laisserait plus la place au numéro de carte. */
+.only-narrow { display: none; }
+@media (max-width: 519px) {
+  .field-tag { display: none; }
+  .field-with-tag input { padding-right: 0.8rem; }
+  .only-narrow { display: block; }
+}
+
+/* Frise des moyens acceptés : rassure avant même d'ouvrir le paiement. */
+.pay-accepted {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 0.6rem;
+  margin: 0; font-size: 0.8rem; color: var(--color-text-muted);
+}
+.pay-accepted__label { white-space: nowrap; }
+
+/* --- Fenêtres modales ---------------------------------------------------- */
+/* Le voile est commun au paiement et à la confirmation : l'application n'a
+   qu'une seule façon de recouvrir une page, quelle que soit la fenêtre. */
+.checkout-overlay,
+.confirm-overlay {
+  position: fixed; inset: 0; z-index: 60;
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 1.5rem 1rem;
+  overflow-y: auto;
+  /* Voile dans le vert de la maison plutôt qu'un noir neutre : la page reste
+     reconnaissable derrière, on ne l'a pas quittée. */
+  background: rgba(15, 36, 31, 0.55);
+  backdrop-filter: blur(3px);
+  animation: checkout-fade .18s ease-out;
+}
+@keyframes checkout-fade { from { opacity: 0; } }
+/* Confirmation centrée verticalement, à la différence du paiement : c'est un
+   message court, le poser tout en haut le ferait flotter au-dessus du vide. */
+.confirm-overlay { align-items: center; }
+
+/* --- Fenêtre de confirmation -------------------------------------------- */
+.confirm {
+  width: 100%; max-width: 520px; margin: auto;
+  background: var(--color-surface);
+  border-radius: var(--radius); box-shadow: var(--shadow);
+  overflow: hidden;
+  animation: checkout-rise .2s ease-out;
+}
+.confirm:focus { outline: none; }
+
+.confirm__head {
+  display: flex; gap: 1rem; align-items: flex-start;
+  padding: 1.6rem 1.6rem 1.1rem;
+}
+/* Pastille de ton : elle qualifie le message avant même qu'on l'ait lu. */
+.confirm__icon {
+  display: grid; place-items: center; flex-shrink: 0;
+  width: 2.75rem; height: 2.75rem; border-radius: 999px;
+}
+.confirm__icon--warning { background: var(--color-warning-soft); color: var(--color-warning-dark); }
+.confirm__icon--danger { background: var(--color-danger-soft); color: var(--color-danger-dark); }
+.confirm__icon--info { background: var(--color-info-soft); color: var(--color-info-dark); }
+.confirm__heading { min-width: 0; }
+.confirm__title {
+  margin: 0.1rem 0 0; font-size: 1.25rem; line-height: 1.25;
+  color: var(--color-primary-dark);
+}
+.confirm__subtitle { margin: 0.3rem 0 0; font-size: 0.9rem; color: var(--color-text-muted); }
+
+.confirm__body { padding: 0 1.6rem; }
+.confirm__message { margin: 0; font-size: 0.95rem; line-height: 1.55; }
+
+.confirm__progress { margin-top: 1.1rem; }
+.confirm__progress-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-size: 0.82rem; color: var(--color-text-muted);
+}
+.confirm__progress-head b { color: var(--color-primary-dark); font-variant-numeric: tabular-nums; }
+
+/* Liste des pièces qui manquent : encadrée, pour se lire comme un extrait du
+   dossier et non comme la suite du paragraphe. */
+.confirm__list {
+  list-style: none; margin: 1.1rem 0 0; padding: 0.35rem 0;
+  border: 1px solid var(--color-border); border-radius: var(--radius-sm);
+  background: var(--color-neutral-soft);
+}
+/* Le badge passe sous le libellé quand la ligne ne tient plus : vérifié au
+   calcul, « Titre foncier ou acte de propriété » demande 248 px pour 136 px
+   disponibles à 340 px de large. Sans retour à la ligne, il déborderait du
+   cadre. Au-delà de 520 px, tout tient sur une ligne. */
+.confirm__item {
+  display: flex; align-items: center; gap: 0.3rem 0.6rem; flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 0.5rem 0.85rem; font-size: 0.88rem;
+}
+.confirm__item-label { flex: 1 1 auto; min-width: 0; font-weight: 600; }
+.confirm__item .badge { white-space: nowrap; }
+.confirm__item--more { justify-content: center; color: var(--color-text-muted); font-style: italic; }
+
+/* Saisie du motif : elle remplace `window.prompt`, donc elle doit ressembler
+   aux champs de l'application et non à une boîte système. */
+.confirm__field { margin-top: 1.2rem; }
+.confirm__field label {
+  display: block; margin-bottom: 0.35rem;
+  font-size: 0.85rem; font-weight: 600; color: var(--color-primary-dark);
+}
+.confirm__field textarea {
+  width: 100%; padding: 0.6rem 0.75rem; resize: vertical;
+  border: 1px solid var(--color-border); border-radius: var(--radius-sm);
+  background: var(--color-surface); font: inherit; font-size: 0.92rem;
+}
+.confirm__field textarea:focus-visible {
+  outline: 2px solid var(--color-info); outline-offset: 1px; border-color: transparent;
+}
+.confirm__field textarea[aria-invalid='true'] { border-color: var(--color-danger); }
+.confirm__field small { display: block; margin-top: 0.35rem; font-size: 0.8rem; }
+.confirm__field-error { color: var(--color-danger-dark); font-weight: 600; }
+
+.confirm__foot {
+  display: flex; gap: 0.6rem; justify-content: flex-end; flex-wrap: wrap;
+  margin-top: 1.5rem; padding: 1.1rem 1.6rem;
+  border-top: 1px solid var(--color-border); background: var(--color-bg);
+}
+/* Sous 420 px, deux boutons côte à côte tronquent leur libellé : ils passent
+   l'un sous l'autre, l'action principale en premier sous le pouce. */
+@media (max-width: 419px) {
+  /* Saisie du motif : elle remplace `window.prompt`, donc elle doit ressembler
+   aux champs de l'application et non à une boîte système. */
+.confirm__field { margin-top: 1.2rem; }
+.confirm__field label {
+  display: block; margin-bottom: 0.35rem;
+  font-size: 0.85rem; font-weight: 600; color: var(--color-primary-dark);
+}
+.confirm__field textarea {
+  width: 100%; padding: 0.6rem 0.75rem; resize: vertical;
+  border: 1px solid var(--color-border); border-radius: var(--radius-sm);
+  background: var(--color-surface); font: inherit; font-size: 0.92rem;
+}
+.confirm__field textarea:focus-visible {
+  outline: 2px solid var(--color-info); outline-offset: 1px; border-color: transparent;
+}
+.confirm__field textarea[aria-invalid='true'] { border-color: var(--color-danger); }
+.confirm__field small { display: block; margin-top: 0.35rem; font-size: 0.8rem; }
+.confirm__field-error { color: var(--color-danger-dark); font-weight: 600; }
+
+.confirm__foot { flex-direction: column-reverse; }
+  .confirm__foot .btn { width: 100%; }
+}
+
+.checkout {
+  width: 100%; max-width: 880px; margin: auto;
+  background: var(--color-surface);
+  border-radius: var(--radius); box-shadow: var(--shadow);
+  overflow: hidden;
+  animation: checkout-rise .2s ease-out;
+}
+@keyframes checkout-rise { from { transform: translateY(12px); opacity: 0; } }
+.checkout:focus { outline: none; }
+
+.checkout__head {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem;
+  padding: 1.4rem 1.6rem 1.1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+.checkout__title { margin: 0.15rem 0 0; font-size: 1.35rem; line-height: 1.25; }
+.checkout__close {
+  flex-shrink: 0; display: grid; place-items: center;
+  width: 2.2rem; height: 2.2rem; padding: 0;
+  background: var(--color-neutral-soft); border: none; border-radius: 999px;
+  color: var(--color-text-muted); cursor: pointer;
+}
+.checkout__close:hover { background: var(--color-border); color: var(--color-text); }
+.checkout__close:disabled { opacity: .5; cursor: not-allowed; }
+
+.checkout__grid { display: grid; }
+.checkout__main { padding: 1.5rem 1.6rem 1.8rem; }
+.checkout__submit { margin-top: 1.5rem; }
+.checkout__note {
+  margin: 0.8rem 0 0; font-size: 0.78rem; line-height: 1.55;
+  color: var(--color-text-muted); text-align: center;
+}
+
+/* Récapitulatif sur fond ivoire : c'est un relevé, pas un formulaire — le
+   changement de fond dit lequel des deux est modifiable. */
+.checkout__summary {
+  padding: 1.5rem 1.6rem;
+  background: var(--color-bg);
+  border-top: 1px solid var(--color-border);
+  /* Sous 900 px la colonne passe au-dessus du formulaire : on ne choisit pas
+     un moyen de paiement avant de savoir ce qu'on paie. */
+  order: -1;
+}
+.checkout__summary-head {
+  margin: 0 0 0.9rem;
+  font-size: 0.78rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+  color: var(--color-gold-dark);
+}
+.checkout__lines { margin: 0; display: grid; gap: 0.15rem; }
+.checkout__line {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;
+  padding: 0.5rem 0; border-bottom: 1px dashed var(--color-border);
+  font-size: 0.9rem;
+}
+.checkout__line dt { color: var(--color-text-muted); }
+.checkout__line dd { margin: 0; min-width: 0; text-align: right; font-weight: 600; overflow-wrap: anywhere; }
+.checkout__line-hint { display: block; font-size: 0.75rem; opacity: .85; }
+.checkout__line-strong { color: var(--color-success-dark); }
+
+/* « Total dû aujourd'hui » + « 150 000 000 FCFA » ne tiennent pas toujours sur
+   une ligne dans une colonne de 345 px. Plutôt que de rapetisser le montant —
+   c'est le chiffre qu'on vient lire — on le laisse passer à la ligne, calé à
+   droite par la marge automatique. */
+.checkout__total {
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline;
+  gap: 0.25rem 1rem;
+  margin-top: 1rem; padding-top: 1rem;
+  border-top: 2px solid var(--color-primary);
+  font-size: 0.95rem; font-weight: 700;
+}
+.checkout__total b {
+  margin-left: auto;
+  font-size: 1.3rem; color: var(--color-primary-dark);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.checkout__summary-note {
+  margin: 1rem 0 0; font-size: 0.78rem; line-height: 1.6; color: var(--color-text-muted);
+}
+
+@media (min-width: 900px) {
+  .checkout__grid { grid-template-columns: 1.1fr 0.9fr; }
+  .checkout__summary {
+    order: 0;
+    border-top: none; border-left: 1px solid var(--color-border);
+  }
+}
+@media (max-width: 519px) {
+  .checkout__head { padding: 1.1rem 1.1rem 0.9rem; }
+  .checkout__main, .checkout__summary { padding: 1.2rem 1.1rem; }
+  .checkout__title { font-size: 1.2rem; }
+  /* Libellé au-dessus de la valeur : côte à côte, il ne reste que ~105 px à
+     droite et un titre de projet y tombe sur trois lignes. */
+  .checkout__line { flex-direction: column; align-items: flex-start; gap: 0.1rem; }
+  .checkout__line dd { text-align: left; }
+}
+
+/* --- Encart d'investissement --------------------------------------------- */
+/* Le montant à retenir doit se lire avant tout le reste de l'encart : c'est
+   lui qui décide si l'on continue. */
+.invest-figure { text-align: center; padding: 0.2rem 0 1rem; }
+.invest-figure__value {
+  display: block; font-size: 1.9rem; font-weight: 800; line-height: 1.1;
+  color: var(--color-primary-dark); font-variant-numeric: tabular-nums;
+}
+.invest-figure__label { font-size: 0.82rem; color: var(--color-text-muted); }
+
+.invest-box__foot {
+  margin-top: 1rem; padding-top: 0.9rem;
+  border-top: 1px solid var(--color-border);
+  display: grid; gap: 0.6rem; justify-items: center;
+}
+.invest-secure {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  font-size: 0.78rem; color: var(--color-success-dark);
+}
+
+/* Montants proposés : la plupart des investisseurs prennent un multiple du
+   ticket minimum — autant leur épargner la saisie, et le calcul de tête. */
+.amount-presets { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 0.6rem; }
+.amount-preset {
+  padding: 0.35rem 0.7rem;
+  background: var(--color-surface); color: var(--color-primary-dark);
+  border: 1px solid var(--color-border); border-radius: 999px;
+  font: inherit; font-size: 0.82rem; font-weight: 600; cursor: pointer;
+}
+.amount-preset:hover { border-color: var(--color-primary); }
+.amount-preset--on { background: var(--color-primary); border-color: var(--color-primary); color: #fff; }
+
+/* Étapes numérotées de la fenêtre de paiement : « 1 Montant », « 2 Moyen de
+   paiement ». Deux blocs de champs sans hiérarchie se liraient comme un seul
+   formulaire indistinct. */
+.pay-step { margin-bottom: 1.5rem; }
+.pay-step:last-of-type { margin-bottom: 0; }
+.pay-step__head { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem; }
+.pay-step__num {
+  display: grid; place-items: center; flex-shrink: 0;
+  width: 1.5rem; height: 1.5rem; border-radius: 999px;
+  background: var(--color-primary); color: #fff;
+  font-size: 0.78rem; font-weight: 700;
+}
+.pay-step__title { margin: 0; font-size: 1rem; }
+
+/* --- Carte d'abonnement en cours ----------------------------------------- */
+/* Traitée comme une carte de membre : fond vert profond, mot-symbole doré.
+   Le reste de la page est une grille de tarifs — cette carte-là dit « voici
+   ce que vous avez déjà », elle ne doit pas se confondre avec une offre. */
+.sub-card {
+  position: relative; overflow: hidden;
+  padding: 1.6rem;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  color: #fff; border: none;
+}
+.sub-card::after {
+  content: ""; position: absolute; top: -40%; right: -10%;
+  width: 260px; height: 260px; border-radius: 50%;
+  background: rgba(229, 198, 144, 0.12);
+}
+.sub-card__grid {
+  position: relative; display: grid; gap: 1.25rem;
+}
+@media (min-width: 760px) {
+  .sub-card__grid { grid-template-columns: 1.4fr 1fr; align-items: start; }
+}
+.sub-card__eyebrow {
+  margin: 0; font-size: 0.75rem; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-gold);
+}
+.sub-card__tier { margin: 0.25rem 0 0.15rem; font-size: 1.6rem; line-height: 1.15; color: #fff; }
+.sub-card__price { margin: 0; font-size: 0.92rem; color: rgba(255, 255, 255, 0.78); }
+.sub-card__meta {
+  display: flex; flex-wrap: wrap; gap: 1.5rem;
+  margin-top: 1.1rem; padding-top: 1.1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+.sub-card__stat { min-width: 0; }
+.sub-card__stat b { display: block; font-size: 1.25rem; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.sub-card__stat span { font-size: 0.78rem; color: rgba(255, 255, 255, 0.7); }
+/* Jauge de quota sur fond sombre : la barre verte de la page y disparaîtrait,
+   d'où l'or, seule couleur de la charte qui tienne sur ce fond. */
+.sub-card__gauge { height: 7px; border-radius: 999px; background: rgba(255, 255, 255, 0.18); overflow: hidden; margin-top: 0.5rem; }
+.sub-card__gauge > span { display: block; height: 100%; background: var(--color-gold); border-radius: 999px; }
+.sub-card__actions { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.25rem; }
+/* Boutons posés sur le vert profond : les variantes claires de la page n'y
+   ont pas assez de contraste. */
+.sub-card .btn--accent { background: var(--color-gold); color: var(--color-primary-dark); }
+.sub-card__ghost {
+  background: transparent; color: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+.sub-card__ghost:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
+
+/* --- Journal de facturation ---------------------------------------------- */
+.bill-row {
+  display: flex; align-items: center; gap: 0.9rem;
+  padding: 0.9rem 1.1rem; border-bottom: 1px solid var(--color-border);
+}
+.bill-row:last-child { border-bottom: none; }
+.bill-row__logo { display: grid; place-items: center; width: 34px; flex-shrink: 0; }
+.bill-row__body { flex: 1; min-width: 0; }
+.bill-row__title { font-weight: 600; }
+.bill-row__meta { font-size: 0.82rem; color: var(--color-text-muted); }
+.bill-row__amount { text-align: right; flex-shrink: 0; }
+.bill-row__amount b { display: block; font-variant-numeric: tabular-nums; color: var(--color-primary-dark); }
+
+/* --- Dossier KYC -------------------------------------------------------- */
+.kyc-checklist { padding: 0.4rem 0; }
+.kyc-check {
+  display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;
+  padding: 0.85rem 1.1rem; border-bottom: 1px solid var(--color-border);
+}
+.kyc-check:last-child { border-bottom: none; }
+.kyc-check__mark {
+  display: grid; place-items: center; width: 1.5rem; height: 1.5rem; flex-shrink: 0;
+  border-radius: 999px; background: var(--color-neutral-soft); color: var(--color-text-muted);
+  font-size: 0.8rem; font-weight: 700;
+}
+.kyc-check__mark--done { background: var(--color-success-soft); color: var(--color-success-dark); }
+.kyc-check__label { flex: 1; min-width: 0; font-weight: 600; }
+/* Le libellé porte maintenant une précision sur ce qui est attendu : sans
+   display:block, le <small> resterait collé au bout du titre. */
+.dossier-check__hint {
+  display: block; margin-top: 0.15rem;
+  font-weight: 400; font-size: 0.82rem; color: var(--color-text-muted);
+}
+.dossier-check__optional {
+  margin-left: 0.5rem; padding: 0.05rem 0.45rem; border-radius: 999px;
+  background: var(--color-neutral-soft); color: var(--color-text-muted);
+  font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+  vertical-align: middle;
+}
+.field input[type="file"] { padding: 0.5rem; background: #fff; }
+
+/* En-tête de dossier : rappel du profil et avancement chiffré. */
+.dossier-head { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+.dossier-bar {
+  height: 6px; border-radius: 999px; background: var(--color-neutral-soft);
+  overflow: hidden; margin-top: 0.75rem; max-width: 420px;
+}
+.dossier-bar__fill { height: 100%; background: var(--color-success); border-radius: 999px; }
+
+/* --- Back-office administrateur ------------------------------------------ */
+
+/* Navigation secondaire : le back-office a cinq sections, les empiler dans la
+   navbar la rendrait illisible pour les autres rôles. */
+.admin-tabs {
+  display: flex; flex-wrap: wrap; gap: 0.25rem;
+  margin-top: 1.1rem; border-bottom: 1px solid var(--color-border);
+}
+.admin-tab {
+  padding: 0.55rem 0.9rem; font-size: 0.9rem; font-weight: 600;
+  color: var(--color-text-muted); border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+.admin-tab:hover { color: var(--color-primary); text-decoration: none; }
+.admin-tab--on { color: var(--color-primary-dark); border-bottom-color: var(--color-primary); }
+
+/* Tuile de file d'attente : cliquable, elle mène à l'écran qui la traite. */
+.queue-tile { display: block; color: inherit; transition: box-shadow .15s, transform .1s; }
+.queue-tile:hover {
+  text-decoration: none; box-shadow: var(--shadow); transform: translateY(-2px);
+  border-color: var(--color-primary);
+}
+
+/* Barre de filtres : une seule ligne au-dessus des données. */
+.admin-filters {
+  display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center;
+  margin-bottom: 1.25rem;
+}
+.admin-filters input, .admin-filters select {
+  padding: 0.5rem 0.7rem; font: inherit; font-size: 0.9rem;
+  border: 1px solid var(--color-border); border-radius: var(--radius-sm);
+  background: var(--color-surface);
+}
+.admin-filters input:focus, .admin-filters select:focus {
+  outline: none; border-color: var(--color-primary);
+}
+.admin-filters__search { flex: 1; min-width: 200px; }
+
+/* Filtres-compteurs : le nombre fait partie du libellé, on choisit en le voyant. */
+.admin-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.25rem; }
+.admin-chip {
+  padding: 0.35rem 0.75rem; font: inherit; font-size: 0.84rem;
+  background: var(--color-surface); color: var(--color-text-muted);
+  border: 1px solid var(--color-border); border-radius: 999px; cursor: pointer;
+}
+.admin-chip b { color: var(--color-text); margin-left: 0.25rem; }
+.admin-chip:hover { border-color: var(--color-primary); color: var(--color-primary); }
+.admin-chip--on {
+  background: var(--color-primary); border-color: var(--color-primary); color: #fff;
+}
+.admin-chip--on b { color: #fff; }
+
+/* Tableaux de supervision : plus aérés que les tableaux de graphiques, et
+   sans white-space:nowrap sur la première colonne (les noms sont longs). */
+.admin-table td, .admin-table th { padding: 0.65rem 0.7rem; vertical-align: top; }
+.admin-table tbody td:first-child { white-space: normal; min-width: 180px; }
+
+/* Liste d'activité récente / de pièces. */
+.admin-feed { list-style: none; margin: 0; padding: 0; }
+.admin-feed__item {
+  display: flex; gap: 1rem; justify-content: space-between; align-items: flex-start;
+  padding: 0.7rem 0; border-bottom: 1px solid var(--color-border);
+}
+.admin-feed__item:last-child { border-bottom: none; }
+.admin-feed__main { min-width: 0; font-size: 0.9rem; }
+.admin-feed__meta { font-size: 0.78rem; color: var(--color-text-muted); margin-top: 0.15rem; }
+.admin-feed__side {
+  display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.admin-pager {
+  display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: center;
+  margin: 1rem 0 2rem; font-size: 0.88rem;
+}
+
+/* --- Modération administrateur ------------------------------------------ */
+.review-item { padding: 1.2rem; }
+.review-item__head { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: space-between; align-items: flex-start; }
+.review-item__actions { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; margin-top: 1rem; }
+.review-item__note {
+  flex: 1; min-width: 220px; padding: 0.5rem 0.7rem; font: inherit; font-size: 0.9rem;
+  border: 1px solid var(--color-border); border-radius: var(--radius-sm);
+}
+.review-item__note:focus { outline: none; border-color: var(--color-primary); }
+
+/* --- Suivi de chantier (§7.5) -------------------------------------------- */
+.timeline { list-style: none; margin: 0; padding: 0 0 0 1.75rem; position: relative; }
+.timeline::before {
+  content: ''; position: absolute; left: 0.42rem; top: 0.7rem; bottom: 0.7rem;
+  width: 2px; background: var(--color-border);
+}
+.timeline__item { position: relative; margin-bottom: 1.25rem; }
+.timeline__item:last-child { margin-bottom: 0; }
+.timeline__dot {
+  position: absolute; left: -1.75rem; top: 1.35rem;
+  width: 0.9rem; height: 0.9rem; border-radius: 999px;
+  background: var(--color-primary); border: 3px solid #fff; box-shadow: 0 0 0 1px var(--color-border);
+}
+.timeline__card { padding: 1.2rem; }
+.timeline__head { display: flex; gap: 1rem; justify-content: space-between; align-items: flex-start; }
+
+.timeline__photos { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1rem; }
+.timeline__photo,
+.timeline__photos .photo-loading,
+.timeline__photos .photo-fallback {
+  width: 148px; height: 100px; flex-shrink: 0;
+  object-fit: cover; border-radius: var(--radius-sm); border: 1px solid var(--color-border);
+}
+.timeline__photo { cursor: zoom-in; transition: transform 0.15s ease; }
+.timeline__photo:hover { transform: scale(1.02); }
+
+.photo-loading { background: linear-gradient(90deg, #ede4d0 25%, #f8f4e9 50%, #ede4d0 75%); background-size: 200% 100%; animation: photo-shimmer 1.2s infinite; }
+.photo-fallback { display: grid; place-items: center; background: var(--color-neutral-soft); color: var(--color-text-muted); }
+@keyframes photo-shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+
+/* Agrandissement d'une photo au clic. */
+.lightbox {
+  position: fixed; inset: 0; z-index: 50; display: grid; place-items: center;
+  padding: 2rem; background: rgba(15, 36, 31, 0.86); cursor: zoom-out;
+}
+.lightbox__img { max-width: min(1100px, 92vw); max-height: 86vh; border-radius: var(--radius-sm); }
+.lightbox .photo-loading, .lightbox .photo-fallback { width: min(720px, 88vw); height: 60vh; }
+.lightbox__close {
+  position: absolute; top: 1rem; right: 1.4rem; background: none; border: none;
+  color: #fff; font-size: 2.4rem; line-height: 1; cursor: pointer;
+}
+
+/* --- Facteurs explicatifs du score IA (§8.1) ----------------------------- */
+.factors { list-style: none; margin: 1.1rem 0 0; padding: 0.9rem 0 0; border-top: 1px solid var(--color-border); }
+.factor { display: flex; gap: 0.6rem; align-items: flex-start; font-size: 0.88rem; padding: 0.4rem 0; }
+.factor__mark {
+  display: grid; place-items: center; flex-shrink: 0;
+  width: 1.25rem; height: 1.25rem; margin-top: 0.1rem;
+  border-radius: 999px; font-weight: 700; font-size: 0.8rem;
+  background: var(--color-neutral-soft); color: var(--color-text-muted);
+}
+.factor--positif .factor__mark { background: var(--color-success-soft); color: var(--color-success-dark); }
+.factor--négatif .factor__mark { background: var(--color-danger-soft); color: var(--color-danger-dark); }
+
+/* --- Notifications (§7.7) ------------------------------------------------ */
+.bell { position: relative; }
+.bell__button { position: relative; font-size: 1.1rem; padding: 0.45rem 0.7rem; }
+/* Un compte de non-lues n'est pas une erreur : le bleu d'information, pas le
+   rouge d'alerte — cf. remarques (« notifications » figure dans son usage). */
+.bell__badge {
+  position: absolute; top: 0.1rem; right: 0.15rem;
+  min-width: 1.1rem; height: 1.1rem; padding: 0 0.25rem;
+  display: grid; place-items: center;
+  background: var(--color-info-dark); color: #fff; border-radius: 999px;
+  font-size: 0.68rem; font-weight: 700; line-height: 1;
+}
+
+.bell__panel {
+  position: absolute; right: 0; top: calc(100% + 0.5rem); z-index: 40;
+  width: min(360px, calc(100vw - 2rem)); padding: 0;
+  box-shadow: 0 12px 32px rgba(9, 22, 17, 0.16);
+}
+.bell__head {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0.85rem 1rem; border-bottom: 1px solid var(--color-border); font-size: 0.92rem;
+}
+.bell__empty { padding: 1.5rem 1rem; margin: 0; text-align: center; font-size: 0.9rem; }
+.bell__list { list-style: none; margin: 0; padding: 0; max-height: 380px; overflow-y: auto; }
+.bell__item {
+  display: flex; gap: 0.7rem; width: 100%; text-align: left;
+  padding: 0.8rem 1rem; background: none; border: none; border-bottom: 1px solid var(--color-border);
+  font: inherit; cursor: pointer;
+}
+.bell__item:hover { background: var(--color-neutral-soft); }
+/* Non lue = bleu, comme le reste de la messagerie de l'application. */
+.bell__item--unread { background: var(--color-info-soft); }
+.bell__icon { flex: none; color: var(--color-primary); margin-top: 0.1rem; }
+.bell__text { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
+.bell__text b { font-size: 0.88rem; }
+.bell__body {
+  font-size: 0.82rem; color: var(--color-text-muted);
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.bell__date { font-size: 0.75rem; color: var(--color-text-muted); }
+
+/* Boîte de réception complète */
+.notif {
+  display: flex; gap: 0.9rem; align-items: flex-start;
+  padding: 1rem 1.2rem; border-bottom: 1px solid var(--color-border); cursor: pointer;
+}
+.notif:last-child { border-bottom: none; }
+.notif:hover { background: var(--color-neutral-soft); }
+.notif--unread { background: var(--color-info-soft); border-left: 3px solid var(--color-info); }
+.notif__icon { flex: none; color: var(--color-primary); margin-top: 0.15rem; }
+.notif__main { flex: 1; min-width: 0; }
+
+/* --- Tableau de bord analytique (§7.6) ----------------------------------- */
+.kpi-row {
+  display: grid; gap: 1rem; margin-bottom: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+}
+.stat-tile {
+  background: var(--color-surface); border: 1px solid var(--color-border);
+  border-radius: var(--radius); padding: 1.1rem 1.2rem;
+}
+.stat-tile__label { font-size: 0.82rem; color: var(--color-text-muted); margin-bottom: 0.35rem; }
+/* Chiffres proportionnels : tabular-nums délie les grands nombres. */
+.stat-tile__value { font-size: 1.65rem; font-weight: 650; line-height: 1.1; color: var(--color-text); }
+.stat-tile__hint { font-size: 0.78rem; color: var(--color-text-muted); margin-top: 0.3rem; }
+.stat-tile--accent { border-left: 3px solid var(--color-gold); }
+.stat-tile--alert { border-left: 3px solid var(--color-warning); }
+
+.chart-grid { display: grid; gap: 1rem; margin-bottom: 1rem; }
+@media (min-width: 900px) { .chart-grid { grid-template-columns: 1fr 1fr; } }
+
+.chart-card { padding: 1.2rem 1.3rem 1.4rem; margin-bottom: 1rem; }
+.chart-card__head {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 1rem; margin-bottom: 1.1rem;
+}
+.chart-card__title { margin: 0; font-size: 1.02rem; }
+.chart-card__subtitle { margin: 0.15rem 0 0; font-size: 0.82rem; color: var(--color-text-muted); }
+.chart-card__footer { margin: 1rem 0 0; font-size: 0.76rem; color: var(--color-text-muted); }
+.chart-card__toggle {
+  flex-shrink: 0; background: none; border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm); padding: 0.3rem 0.6rem;
+  font: inherit; font-size: 0.78rem; color: var(--color-text-muted); cursor: pointer;
+}
+.chart-card__toggle:hover { border-color: var(--color-primary); color: var(--color-primary); }
+
+.chart { position: relative; width: 100%; }
+.chart__label { font-size: 0.82rem; }
+.chart__value { font-size: 0.82rem; font-weight: 600; }
+.chart__tick { font-size: 0.72rem; font-variant-numeric: tabular-nums; }
+
+.chart-tip {
+  position: absolute; z-index: 5; pointer-events: none;
+  display: flex; flex-direction: column; gap: 0.1rem;
+  padding: 0.5rem 0.7rem; max-width: 220px;
+  background: var(--color-text); color: #fff;
+  border-radius: var(--radius-sm); font-size: 0.8rem; line-height: 1.35;
+  box-shadow: var(--shadow);
+}
+.chart-tip b { font-size: 0.82rem; }
+.chart-tip__note { opacity: 0.75; font-size: 0.75rem; }
+
+.chart-legend { list-style: none; margin: 0.9rem 0 0; padding: 0; display: grid; gap: 0.45rem; }
+.chart-legend li { display: flex; align-items: center; gap: 0.5rem; font-size: 0.84rem; }
+.chart-legend__swatch { width: 0.7rem; height: 0.7rem; border-radius: 3px; flex-shrink: 0; }
+.chart-legend__label { flex: 1; min-width: 0; color: var(--color-text-muted); }
+.chart-legend__value { font-variant-numeric: tabular-nums; }
+.chart-legend__share { color: var(--color-text-muted); font-size: 0.78rem; min-width: 2.6rem; text-align: right; }
+
+.chart-table__wrap { overflow-x: auto; }
+.chart-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+.chart-table th, .chart-table td {
+  padding: 0.45rem 0.6rem; text-align: left; border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+.chart-table td { font-variant-numeric: tabular-nums; }
+.chart-table thead th { color: var(--color-text-muted); font-weight: 600; font-size: 0.78rem; }
+.chart-table tbody th { font-weight: 600; }
+
+/* Jauges */
+.meter-list { display: grid; gap: 1.1rem; }
+.meter__head { display: flex; justify-content: space-between; align-items: baseline; gap: 0.6rem; }
+.meter__label { font-size: 0.85rem; color: var(--color-text-muted); }
+.meter__value { font-size: 0.85rem; font-variant-numeric: tabular-nums; }
+.meter__track { height: 8px; border-radius: 999px; overflow: hidden; margin-top: 0.35rem; }
+.meter__track > span { display: block; height: 100%; border-radius: 999px; }
+.meter__caption { font-size: 0.76rem; color: var(--color-text-muted); margin-top: 0.3rem; }
+
+/* Positions de l'investisseur */
+.position-list { display: grid; gap: 1.3rem; }
+.position { padding-bottom: 1.3rem; border-bottom: 1px solid var(--color-border); }
+.position:last-child { padding-bottom: 0; border-bottom: none; }
+.position__head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; }
+.position__title { font-weight: 650; }
+.position__meta { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+.position__figures {
+  display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+  font-size: 0.86rem; margin: 0.5rem 0 0.8rem;
+}
+.position__meters { display: grid; gap: 0.8rem; }
+@media (min-width: 640px) { .position__meters { grid-template-columns: 1fr 1fr; } }
+
+.status-dot { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.8rem; color: var(--color-text-muted); }
+.status-dot__mark { width: 0.6rem; height: 0.6rem; border-radius: 999px; flex-shrink: 0; }
+
+/* --- Icônes ------------------------------------------------------------- */
+/* Tracés au trait à `currentColor` : une icône prend la couleur et la taille
+   du texte qui l'accueille, ce qu'un emoji ne sait pas faire. */
+.icon { display: inline-block; flex: none; vertical-align: -0.15em; }
+
+/* Titre précédé d'une icône (« Analyse IA », « Suivi du chantier »). */
+.head-icon { display: flex; align-items: center; gap: 0.5rem; }
+.head-icon .icon { color: var(--color-primary); }
+
+/* Mention « vérifié » accolée à un nom de promoteur. */
+.verified {
+  display: inline-flex; align-items: center; gap: 0.25rem;
+  color: var(--color-primary); font-weight: 600;
+}
+
+/* --- Note en étoiles ------------------------------------------------------ */
+.star-rating { display: inline-flex; gap: 0.15rem; }
+.star-rating__star { color: var(--color-border); }
+.star-rating__star--on { color: var(--color-gold-dark); }
+.star-rating__star--btn {
+  background: none; border: none; padding: 0.1rem; cursor: pointer;
+  line-height: 0; border-radius: 4px;
+}
+.star-rating__star--btn:hover { color: var(--color-gold-dark); }
+.star-rating__star--btn:focus-visible { outline: 2px solid var(--color-info); outline-offset: 2px; }
+
+/* --- Avis d'investisseurs (§2) --------------------------------------------
+   Même idiome que le journal de chantier (.timeline) : une liste de cartes,
+   la plus récente en tête. */
+.review-summary { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem; }
+.review-summary__value { font-size: 1.3rem; font-weight: 800; color: var(--color-primary-dark); }
+.review-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.9rem; }
+.review-card { padding: 1rem 1.2rem; }
+.review-card__head { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; }
+.review-card__meta { font-size: 0.82rem; color: var(--color-text-muted); margin-top: 0.15rem; }
+.review-card__comment { margin: 0.6rem 0 0; white-space: pre-line; }
+
+.review-form { padding: 1.2rem; }
+.review-form__actions { display: flex; gap: 0.6rem; margin-top: 0.9rem; flex-wrap: wrap; }

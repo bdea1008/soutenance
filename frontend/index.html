@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#183630" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="AndTabbax — plateforme de co-investissement immobilier au Sénégal. Investir ensemble, construire ensemble." />
+
+    <!-- Aperçu au partage (WhatsApp, Facebook, LinkedIn) : sans image, un lien
+         vers la plateforme s'affiche nu. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="AndTabbax" />
+    <meta property="og:title" content="AndTabbax — Co-investissement immobilier" />
+    <meta property="og:description" content="Investir ensemble, bâtir l'avenir : financer collectivement des projets immobiliers au Sénégal." />
+    <meta property="og:image" content="/icon-512.png" />
+    <meta name="twitter:card" content="summary" />
+
+    <title>AndTabbax — Co-investissement immobilier</title>
+
+    <style>
+      /* Écran d'amorçage : le temps que le bundle React se charge, la page
+         resterait blanche. React remplace le contenu de #root en montant, il
+         n'y a donc rien à retirer à la main. */
+      .boot { display: grid; place-items: center; gap: 1rem; min-height: 100vh; }
+      .boot img { width: 96px; height: 96px; object-fit: contain; }
+      .boot { background: #e3dac9; }
+      .boot p {
+        margin: 0; font: 600 0.9rem/1.4 system-ui, sans-serif;
+        color: #655e50; letter-spacing: 0.02em;
+      }
+      @media (prefers-reduced-motion: no-preference) {
+        .boot img { animation: boot-fade 1.2s ease-in-out infinite alternate; }
+        @keyframes boot-fade { from { opacity: 0.55; } to { opacity: 1; } }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div class="boot">
+        <img src="/apple-touch-icon.png" alt="AndTabbax" />
+        <p>Chargement…</p>
+      </div>
+    </div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

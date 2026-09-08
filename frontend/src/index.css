@@ -1,0 +1,222 @@
+/* =========================================================================
+   AndTabbax — système de design
+   Léger, mobile-first, optimisé pour connexions limitées (pas de framework CSS).
+   ========================================================================= */
+
+:root {
+  /* Marque : vert profond (bâti, confiance) + or doux (Sénégal, prestige).
+     Chrome de l'application — navbar, pied de page, boutons principaux,
+     icônes, focus — porte le vert. Rien d'autre n'y touche : c'est la
+     signature de la maison, elle doit rester rare pour rester reconnaissable. */
+  --color-primary: #183630;
+  --color-primary-dark: #0f241f;
+  --color-primary-light: #2e5348;
+
+  /* Or doux : boutons secondaires et le seul badge qui mérite d'être précieux
+     (« Projet financé »). `--color-gold-dark` est l'encre — assez foncée pour
+     porter du texte sur fond clair, ce que l'or doux ne peut pas faire seul. */
+  --color-gold: #e5c690;
+  --color-gold-dark: #7a5517;
+  --color-gold-soft: #fbf7ef;
+
+  /* Fond de l'application : ivoire chaud, jamais le blanc froid d'un gabarit
+     générique. Les cartes restent blanches — c'est ce contraste doux qui les
+     détache de la page. */
+  --color-bg: #e3dac9;
+  --color-surface: #ffffff;
+  /* Fond neutre pour pastilles/icônes hors contexte de statut (medaillons,
+     repères de chantier) — un pas chaud de la même rampe que --color-bg,
+     jamais le gris-menthe d'un design system par défaut. */
+  --color-neutral-soft: #ede6d5;
+
+  --color-text: #17241f;
+  --color-text-muted: #655e50;
+  --color-border: #d9c9a8;
+
+  /* --- États : chacun réservé à son rôle, jamais recyclé pour autre chose. ---
+     Vert : succès / progression. Distinct du vert profond du chrome — celui-ci
+     reste assez saturé pour rester lisible en petite touche (barre, coche).
+     Bleu : la seule couleur d'information de l'application (§ remarques) —
+     liens de contenu, notifications, statuts « en cours », graphiques. Vue à
+     peine plus d'une fois par écran, elle n'en a que plus de poids quand elle
+     apparaît. Chaque état a une encre (texte sur fond clair) et un fond doux
+     (badges, alertes) dérivés de la même teinte, jamais improvisés à côté. */
+  --color-success: #00876a;
+  --color-success-dark: #006852;
+  --color-success-soft: #dbeeea;
+
+  --color-warning: #c1611f;
+  --color-warning-dark: #934a18;
+  --color-warning-soft: #f6e9e0;
+
+  --color-danger: #b3423a;
+  --color-danger-dark: #a23c34;
+  --color-danger-soft: #f4e5e3;
+
+  --color-info: #3b82f6;
+  --color-info-dark: #0a56d3;
+  --color-info-soft: #e4eefe;
+
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow-sm: 0 1px 2px rgba(15, 36, 31, 0.07);
+  --shadow: 0 4px 16px rgba(15, 36, 31, 0.09);
+  --shadow-lg: 0 12px 32px rgba(15, 36, 31, 0.14);
+
+  --max-width: 1120px;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  color: var(--color-text);
+  background: var(--color-bg);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 { line-height: 1.2; margin: 0 0 0.5em; font-weight: 700; letter-spacing: -0.01em; }
+h1 { font-size: clamp(1.9rem, 5vw, 3rem); }
+h2 { font-size: clamp(1.5rem, 3.5vw, 2.1rem); }
+h3 { font-size: 1.2rem; }
+p { margin: 0 0 1rem; }
+
+/* Le vert de marque reste le chrome (navbar, boutons, icônes) : les liens de
+   contenu — ce sur quoi on clique au fil d'une phrase ou d'un tableau —
+   portent le bleu d'information, la seule couleur de ce rôle dans l'app. */
+a { color: var(--color-info-dark); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+img { max-width: 100%; display: block; }
+
+/* --- Layout ------------------------------------------------------------- */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+.section { padding: 3.5rem 0; }
+.section--tint { background: var(--color-surface); }
+
+.grid { display: grid; gap: 1.25rem; }
+@media (min-width: 640px) { .grid--2 { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px) {
+  .grid--3 { grid-template-columns: repeat(3, 1fr); }
+  .grid--4 { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* --- Boutons ------------------------------------------------------------ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  padding: 0.7rem 1.3rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font: inherit; font-weight: 600; cursor: pointer;
+  transition: background .15s, box-shadow .15s, transform .05s;
+  text-decoration: none;
+}
+.btn:active { transform: translateY(1px); }
+.btn--primary { background: var(--color-primary); color: #fff; }
+.btn--primary:hover { background: var(--color-primary-dark); text-decoration: none; }
+/* Bouton secondaire : or doux — réservé aux actions qui méritent un peu
+   d'éclat (devenir promoteur, choisir un palier), jamais l'action par défaut. */
+.btn--accent { background: var(--color-gold); color: var(--color-primary-dark); }
+.btn--accent:hover { background: #dab871; text-decoration: none; }
+.btn--ghost { background: transparent; color: var(--color-primary); border-color: var(--color-border); }
+.btn--ghost:hover { background: var(--color-neutral-soft); text-decoration: none; }
+/* Action irréversible confirmée dans une fenêtre : supprimer, retirer,
+   résilier. Le vert de la maison dirait « continuez » là où il faut d'abord
+   faire hésiter — d'où le rouge, réservé à ce seul usage. */
+.btn--danger { background: var(--color-danger); color: #fff; }
+.btn--danger:hover { background: var(--color-danger-dark); text-decoration: none; }
+/* Le rembourrage latéral ne sert à rien quand le bouton fait déjà toute la
+   largeur : il ne fait que rogner la place du libellé. « Investir dans ce
+   projet » débordait de l'encart latéral à 900 px pour ces 42 px-là. */
+.btn--block { width: 100%; padding-inline: 0.75rem; }
+/* Format tableau : un bouton pleine taille dans une cellule de 0,84 rem
+   dominerait la ligne qu'il sert. */
+.btn--sm { padding: 0.35rem 0.7rem; font-size: 0.82rem; }
+.btn:disabled { opacity: .6; cursor: not-allowed; }
+
+/* Action qui se lit comme un lien mais n'en est pas une : elle change l'état
+   de la page au lieu de mener ailleurs (rejouer une demande, replier un
+   panneau). Un vrai <a href="#"> ferait défiler la page et polluerait
+   l'historique ; un <button> nu, lui, ressemblerait à une action majeure. */
+.link-button {
+  background: none; border: 0; padding: 0;
+  font: inherit; color: var(--color-info-dark); font-weight: 600;
+  cursor: pointer; text-decoration: underline;
+}
+.link-button:hover { color: var(--color-primary); }
+
+/* --- Cartes ------------------------------------------------------------- */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+/* --- Badges --------------------------------------------------------------
+   Trois tons génériques (nés pour le risque, réutilisés partout comme
+   raccourci bon/attention/mauvais) + deux tons réservés à un seul badge
+   chacun : l'or n'appartient qu'au « financé », le bleu qu'aux statuts « en
+   cours » de la fiche projet. */
+.badge {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  padding: 0.2rem 0.6rem; border-radius: 999px;
+  font-size: 0.75rem; font-weight: 600;
+  background: var(--color-neutral-soft); color: var(--color-primary-dark);
+}
+.badge--risk-low { background: var(--color-success-soft); color: var(--color-success-dark); }
+.badge--risk-medium { background: var(--color-warning-soft); color: var(--color-warning-dark); }
+.badge--risk-high { background: var(--color-danger-soft); color: var(--color-danger-dark); }
+.badge--info { background: var(--color-info-soft); color: var(--color-info-dark); }
+.badge--gold { background: var(--color-gold-soft); color: var(--color-gold-dark); }
+
+/* --- Barre de progression ------------------------------------------------
+   Vert de progression, pas le vert profond du chrome : à l'épaisseur d'un
+   filet de 8 px, le vert profond se lirait presque noir. */
+.progress { height: 8px; background: var(--color-neutral-soft); border-radius: 999px; overflow: hidden; }
+.progress > span { display: block; height: 100%; background: var(--color-success); border-radius: 999px; }
+
+/* --- Formulaires -------------------------------------------------------- */
+.field { margin-bottom: 1rem; }
+.field label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.35rem; }
+.field input, .field select, .field textarea {
+  width: 100%; padding: 0.65rem 0.8rem;
+  border: 1px solid var(--color-border); border-radius: var(--radius-sm);
+  font: inherit; background: #fff; color: var(--color-text);
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+  outline: none; border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(24, 54, 48, 0.15);
+}
+
+/* --- Alertes ------------------------------------------------------------
+   Les quatre états sont ceux d'une interface — pas quatre couleurs choisies
+   au cas par cas : information (bleu), succès, avertissement, erreur. */
+.alert { padding: 0.8rem 1rem; border-radius: var(--radius-sm); font-size: 0.9rem; margin-bottom: 1rem; }
+.alert--error { background: var(--color-danger-soft); color: var(--color-danger-dark); }
+.alert--info { background: var(--color-info-soft); color: var(--color-info-dark); }
+.alert--success { background: var(--color-success-soft); color: var(--color-success-dark); }
+.alert--warning { background: var(--color-warning-soft); color: var(--color-warning-dark); }
+
+/* --- Utilitaires -------------------------------------------------------- */
+.text-muted { color: var(--color-text-muted); }
+.text-center { text-align: center; }
+.stack > * + * { margin-top: 0.75rem; }
+.spinner {
+  width: 34px; height: 34px; margin: 2rem auto;
+  border: 3px solid var(--color-border); border-top-color: var(--color-primary);
+  border-radius: 50%; animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }

@@ -1,0 +1,101 @@
+DIAGRAMME DE CAS D'UTILISATION — PLATEFORME ANDTABAX
+=======================================================
+
+Ce document traduit en langage clair le diagramme UML de cas d'utilisation
+de la plateforme AndTabax (co-investissement immobilier).
+
+
+1. LES ACTEURS
+---------------
+
+- Visiteur
+    Toute personne non connectée qui navigue sur la plateforme.
+
+- Investisseur (hérite de Visiteur)
+    Utilisateur authentifié qui souhaite investir dans des projets immobiliers.
+
+- Porteur de projet (hérite de Visiteur)
+    Utilisateur authentifié qui propose et gère des projets immobiliers.
+
+- Administrateur
+    Gère les utilisateurs et la validation des projets sur la plateforme.
+
+- Responsable juridique et conformité
+    Acteur chargé de la vérification légale/conformité des projets.
+
+Remarque : Investisseur et Porteur de projet sont des spécialisations de
+Visiteur (relation de généralisation) : ils héritent donc de tout ce qu'un
+Visiteur peut faire, plus leurs actions propres.
+
+
+2. LES CAS D'UTILISATION PAR ACTEUR
+-------------------------------------
+
+>> VISITEUR
+   - Consulter les projets (vue liste, publique, sans connexion)
+   - Créer un compte
+   - S'authentifier « include » (nécessaire pour accéder aux fonctions ci-dessous)
+
+>> INVESTISSEUR (en plus des actions du Visiteur)
+   - Consulter un projet (vue détaillée, réservée aux comptes authentifiés)
+   - Investir dans un projet
+        « include » Effectuer un paiement (le paiement fait partie intégrante
+          de l'action d'investir)
+        « extend » Noter / commenter un projet (option pouvant s'ajouter
+          après un investissement)
+   - Recevoir des notifications « extend » (déclenché en complément d'autres
+     actions, ex. suivi d'un investissement)
+
+>> PORTEUR DE PROJET (en plus des actions du Visiteur)
+   - Consulter un projet (vue détaillée)
+   - Gérer ses projets « include », qui regroupe :
+        - Ajouter un projet
+        - Modifier un projet
+        - Retirer un projet
+   - Recevoir des notifications
+
+>> ADMINISTRATEUR
+   - Valider les projets
+        « extend » Demander un complément de dossier (action optionnelle
+          déclenchée si le dossier est incomplet)
+   - Valider un compte
+   - Suspendre un compte
+   - Gérer les utilisateurs « include », qui regroupe :
+        - Ajouter un utilisateur
+        - Supprimer un utilisateur
+
+>> RESPONSABLE JURIDIQUE ET CONFORMITÉ
+   - Consulter les projets (probablement pour vérification légale avant
+     validation finale par l'administrateur)
+
+
+3. RELATIONS CLÉS DU DIAGRAMME
+---------------------------------
+
+- Généralisation : Investisseur → Visiteur, Porteur de projet → Visiteur
+- « include » : une relation d'inclusion signifie que le cas d'utilisation
+  de base a TOUJOURS besoin du cas inclus pour s'exécuter.
+  Exemples : Investir dans un projet inclut Effectuer un paiement ;
+  S'authentifier est inclus dans plusieurs actions ; Gérer ses projets
+  inclut Ajouter/Modifier/Retirer ; Gérer utilisateurs inclut
+  Ajouter/Supprimer un utilisateur.
+
+- « extend » : une relation d'extension signifie que le cas d'utilisation
+  est OPTIONNEL et ne s'exécute que dans certaines conditions.
+  Exemples : Valider les projets peut être étendu par Demander complément
+  de dossier ; Investir dans un projet peut être étendu par Noter/commenter
+  un projet ; Recevoir des notifications étend d'autres actions.
+
+
+4. RÉSUMÉ EN UNE PHRASE PAR ACTEUR
+--------------------------------------
+
+- Le Visiteur découvre la plateforme et peut créer un compte.
+- L'Investisseur consulte les projets en détail, investit et paie,
+  peut noter/commenter, et reçoit des notifications.
+- Le Porteur de projet crée, modifie et retire ses projets, et reçoit
+  des notifications sur leur avancement.
+- L'Administrateur valide ou suspend les comptes et les projets, et
+  gère l'ensemble des utilisateurs.
+- Le Responsable juridique et conformité consulte les projets dans une
+  optique de vérification légale.
